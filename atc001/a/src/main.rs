@@ -8,6 +8,7 @@ fn main() {
         w: usize,
         lines: [Chars; h],
     }
+    let s = Instant::now();
 
     let map: Vec<char> = lines
         .iter()
@@ -16,7 +17,6 @@ fn main() {
         .chars()
         .collect::<Vec<char>>();
     let start = map.iter().position(|&x| x == 's').unwrap();
-    let s = Instant::now();
     let result = search(map, w, h, start);
     let e = s.elapsed();
     println!(
@@ -28,7 +28,7 @@ fn main() {
 }
 fn search(map: Vec<char>, w: usize, h: usize, start: usize) -> bool {
     let mut stack = Vec::new();
-    let mut visited = Vec::new();
+    let mut visited = vec![0; map.len()];
     stack.push(start);
     while stack.len() > 0 {
         let i = stack.pop().unwrap();
@@ -36,7 +36,9 @@ fn search(map: Vec<char>, w: usize, h: usize, start: usize) -> bool {
             return true;
         }
         let next = dig(&map, w, h, &visited, i);
-        visited.extend(next.clone());
+        for n in next.iter() {
+            visited[*n] = 1;
+        }
         stack.extend(next);
     }
     false
@@ -47,22 +49,22 @@ fn dig(map: &Vec<char>, w: usize, h: usize, visited: &Vec<usize>, i: usize) -> V
     let x = i % w;
     let y = i / w;
     if x > 0 && map[i - 1] != '#' {
-        if !visited.iter().any(|&x| x == i - 1) {
+        if visited[i - 1] == 0 {
             result.push(i - 1);
         }
     }
     if x < w - 1 && map[i + 1] != '#' {
-        if !visited.iter().any(|&x| x == i + 1) {
+        if visited[i + 1] == 0 {
             result.push(i + 1);
         }
     }
     if y > 0 && map[i - w] != '#' {
-        if !visited.iter().any(|&x| x == i - w) {
+        if visited[i - w] == 0 {
             result.push(i - w);
         }
     }
     if y < h - 1 && map[i + w] != '#' {
-        if !visited.iter().any(|&x| x == i + w) {
+        if visited[i + w] == 0 {
             result.push(i + w);
         }
     }
