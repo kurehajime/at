@@ -1,5 +1,7 @@
 use proconio::input;
 use proconio::marker::Chars;
+use std::time::Instant;
+
 fn main() {
     input! {
         h: usize,
@@ -14,7 +16,14 @@ fn main() {
         .chars()
         .collect::<Vec<char>>();
     let start = map.iter().position(|&x| x == 's').unwrap();
+    let s = Instant::now();
     let result = search(map, w, h, start);
+    let e = s.elapsed();
+    println!(
+        "{}.{:03}秒経過しました。",
+        e.as_secs(),
+        e.subsec_nanos() / 1_000_000
+    );
     println!("{}", if result { "Yes" } else { "No" });
 }
 fn search(map: Vec<char>, w: usize, h: usize, start: usize) -> bool {
