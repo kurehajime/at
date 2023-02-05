@@ -13,7 +13,7 @@ fn main() {
     println!("{:?}", min_diff(all));
 }
 fn min_diff(all: Vec<isize>) -> isize {
-    let mut min = isize::MAX;
+    let mut min = 1000000001;
     let first = all[0];
     let mut pre_turn = first > 0;
     let mut pre_num = first;
