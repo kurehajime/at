@@ -21,7 +21,7 @@ fn min_diff(all: Vec<isize>) -> isize {
         let turn = all[i] > 0;
         let num = all[i];
         if pre_turn != turn {
-            let diff = (pre_num.abs() - num.abs()).abs();
+            let diff = num.abs() - pre_num.abs();
             if diff < min {
                 min = diff;
             }
