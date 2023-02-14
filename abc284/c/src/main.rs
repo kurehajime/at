@@ -15,10 +15,14 @@ fn main() {
         unite(&mut node, &mut rank, querys[i][0], querys[i][1]);
     }
     node = node[1..].to_vec();
-    node.sort();
-    node.dedup();
+    let mut count = 0;
+    for i in 0..n {
+        if node[i] == i + 1 {
+            count += 1;
+        }
+    }
 
-    println!("{:?}", node);
+    println!("{:?}", count);
 }
 
 fn init(node: &mut Vec<usize>) {
